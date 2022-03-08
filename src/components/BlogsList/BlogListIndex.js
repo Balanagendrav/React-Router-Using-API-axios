@@ -1,48 +1,52 @@
+//Using UseState and axios
+
 import { useEffect, useState } from "react";
-// import Loader from 'react-loader-spinner';
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { TailSpin } from 'react-loader-spinner';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from 'axios'
 import BlogItemIndex from '../BlogItem/BlogItemIndex';
 
 import './BlogListIndex.css';
 
-const BlogListIndex=()=>{
-    const [blog,setBlog]=useState([])
-    // const [isLoading,setLoading] = useState(true);
-    const blogData = async ()=>{
+const BlogListIndex = () => {
+    const [blog, setBlog] = useState([])
+    const [isLoading, setLoading] = useState(true);
+    const blogData = async () => {
         const result = await axios.get("https://apis.ccbp.in/blogs")
         setBlog(result.data)
-        // setLoading(false)
-        
+        setLoading(false)
     }
-    useEffect(()=>{
+    useEffect(() => {
         blogData()
-    },[])
-    
-        return(
-            <div className="blog-list-container">
-                {blog.map((item)=>{
-                    return(
+    }, [])
+
+    return (
+        <div className="blog-list-container">
+            {isLoading ? (<TailSpin type="TailSpin" color="#00BFFF" height={50} width={50} />) : (
+                blog.map((item) => {
+                    return (
                         <div>
-                            <BlogItemIndex item={item}/>
+                            <BlogItemIndex item={item} />
                         </div>
                     )
-                })}
-            </div>
-        )
+                })
+        )}
+        </div>
+    )
 }
 
 
+//Using Class Components
 
 // import {Component} from 'react'
-// import Loader from 'react-loader-spinner'
+// import { TailSpin } from 'react-loader-spinner';
 
-// import BlogItem from '../BlogItem'
+// import BlogItemIndex from '../BlogItem/BlogItemIndex';
 
 // import './BlogListIndex.css'
 // import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
-// class BlogsListIndex extends Component {
+// class BlogListIndex extends Component {
 //   state = {
 //     blogsData: [],
 //     isLoading: true,
@@ -72,9 +76,9 @@ const BlogListIndex=()=>{
 //     return (
 //       <div className="blog-list-container">
 //         {isLoading ? (
-//           <Loader type="TailSpin" color="#00BFFF" height={50} width={50} />
+//           <TailSpin type="TailSpin" color="#00BFFF" height={50} width={50} />
 //         ) : (
-//           blogsData.map(item => <BlogItem blogData={item} key={item.id} />)
+//           blogsData.map(item => <BlogItemIndex blogData={item} key={item.id} />)
 //         )}
 //       </div>
 //     )
